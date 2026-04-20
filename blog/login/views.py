@@ -2,8 +2,14 @@
 from .models import User
 from .forms import UserForm
 
+# страница со списком пользователей
+def users(request):
+    # получим всех пользователей из базы
+    users = User.objects.all()
+    return render(request, 'users.html', {'users': users})
 
-# Create your views here.
+
+# создать пользователя
 def add_user(request):
     # получили данные. нужно сохранить юзера в базу
     if request.method == "POST":
@@ -11,7 +17,7 @@ def add_user(request):
         user = UserForm(request.POST)
         if user.is_valid():
             user.save()
-        return redirect('/')
+        return redirect('/users/')
     # это простой запрос, нужно показать форму
     else:
         form = UserForm()
